@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<th:block
+	th:replace="~{ /layout/basic :: setContent(~{this :: content})}">
+	<!--  조각만들기 -->
+	<th:block th:fragment="content">
+		<h1>
+			Board List Page <span> <a th:href="@{/board/register}">
+					<button type="button" class="btn btn-outline-primary">게시물
+						등록</button>
+			</a>
+			</span>
+		</h1>
+
+		<table class="table table-striped">
+			<!-- 부트스트랩의 스타일 적용 -->
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>등록일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="dto : ${list}">
+					<th>
+						<!-- no파라미터에 값을 담는것(dto.no),  --> 
+						<a th:href="@{/board/read(no = ${dto.no})}">[[${dto.no}]]</a>
+					</th>
+					<td>[[${dto.title}]]</td>
+					<td>[[${dto.writer}]]</td>
+					<td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+				</tr>
+			</tbody>
+
+		</table>
+
+		<ul class="pagination h-100 justify-content-center align-items-center">
+			<th:block th:each="page : ${#numbers.sequence(1, list.totalPages)}">
+
+				<th:block th:if="${list.number+1 == page}">
+					<li class="page-item active"><a class="page-link" th:href="@{ /board/list (page=${page})}">[[${page}]]</a></li>
+				</th:block>
+				<th:block th:unless="${list.number+1 == page}">
+					<li class="page-item"><a class="page-link" th:href="@{ /board/list (page=${page})}">[[${page}]]</a></li>
+				</th:block>
+			</th:block>
+
+			<!-- <li class="page-item active"><a class="page-link" href="">2</a>
+			</li>
+			<li class="page-item"><a class="page-link" href="">3</a></li> -->
+		</ul>
+		<!-- 
+		<th:block th:each="page : ${#numbers.sequence(1, list.totalPages)}">
+			[[${page}]]
+		</th:block> -->
+
+		<script th:inline="javascript">
+			$(document).ready(
+				function(){
+					var msg = [[${msg}]];
+					
+					if(msg != null){
+						alert(msg + "번 글이 등록되었습니다.");
+					}
+				}		
+			);
+		</script>
+	</th:block>
+
+</th:block>
+
+
+<!--인라인 속성을 사용하여 타입 처리-->
+<!--전달받은 값을 모달창으로 출력-->
+<!--서버에서 전달한 처리결과를 msg변수에 저장-->
+<!-- 글번호가 있는지 확인 -->
+<!--<script th:inline="javascript">
+			$(document).ready(function(){
+			  var msg = [[${msg}]];
+			  if(msg != null){
+				  alert(msg + "번 글이 등록되었습니다.");
+			  }
+			});
+</script>-->

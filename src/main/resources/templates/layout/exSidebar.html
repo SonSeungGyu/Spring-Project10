@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<!-- 문서 안에 있는 조각을 exLayout2 페이지에 전달한다 -->
+<th:block th:replace="~{ /layout/basic :: setContent(~{this :: content})}">
+
+	<!--  조각만들기 -->
+	<th:block th:fragment="content">
+		<h1>exSidebar Page</h1>
+	</th:block>
+
+</th:block>
+
+
+
