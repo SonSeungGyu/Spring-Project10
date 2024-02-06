@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -45,7 +47,11 @@ public class BoardController {
 	
 	//등록처리
 	@PostMapping("/register")
-	public String registerPost(BoardDTO dto, RedirectAttributes redirectAttributes) {
+	public String registerPost(BoardDTO dto, RedirectAttributes redirectAttributes, Principal principal) {//principal 은 인증 변수
+		
+		String id = principal.getName();
+		
+		dto.setWriter(id);
 		
 		//게시물 등록하고 새로운 게시물 번호 반환
 		int no = service.register(dto);
